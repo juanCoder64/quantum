@@ -1,1 +1,1 @@
-aqui va el diseño del robot (si se pueede y es necesario)
+aqui va el diseño del robot (si se puede y es necesario)
