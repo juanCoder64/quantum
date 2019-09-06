@@ -8,8 +8,7 @@ Adafruit_SSD1306 oled(128, 64, &Wire, 4);
 #include <Adafruit_HMC5883_U.h>
 float ini;
 int a;
-int l1= 60;
-int l2 = 20;
+int l1 = 60;
 int b;
 int S;
 float valor;
@@ -58,7 +57,7 @@ void brujula(void)
 
 void setup(void)
 {
-  pinMode(22,INPUT_PULLUP);
+  pinMode(22, INPUT_PULLUP);
   Serial.begin(9600);
   Wire.begin();
   /* Initialise the sensor */
@@ -107,16 +106,22 @@ void loop(void)
       oled.setTextColor(WHITE);        // Draw white text
       oled.setCursor(0, 40);            // Start at top-left corner
       oled.print("girar hacia");
-      if (valor>250&&valor<300){
-        l1=+30;
-        l2=+30;
-      }
-      if (valor <= 180) {
+
+      if (valor < 100) {
         derecha();
         oled.setTextSize(1);             // Normal 1:1 pixel scale
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("izquierda");
+        if (valor >= 30) {
+          l1 = 255;
+        }
+        else if(valor>=24&&valor<30){
+          l1 = 50;
+        }
+        else {
+          l1 = 40;
+        }
       }
       else {
         izquierda();
@@ -124,7 +129,15 @@ void loop(void)
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("derecha");
- 
+        if (valor <= 315){
+          l1 = 255;
+        }
+        else if(valor<=310&&valor>315){
+          l1 =50;
+        }
+        else {
+          l1 = 40;
+        }
       }
     }
     else {
@@ -145,7 +158,7 @@ void loop(void)
   oled.display();
 }
 int frente() {
-  if (valor < 15 || valor > 345) {
+  if (valor < 10 || valor > 350) {
     return 1;
   }
   else {
@@ -196,36 +209,36 @@ void buscar() {
   oled.print(b);
 
   //,,,,,,ADELANTE,,,,,,
-  if (a <=6 && a >=4 || a>=8 && b<160) {
+  if (a <= 6 && a >= 4 || a >= 8 && b < 160) {
     //enfrente();
-digitalWrite(2, LOW);
-digitalWrite(3, HIGH);
+    digitalWrite(2, LOW);
+    digitalWrite(3, HIGH);
 
-digitalWrite(4, HIGH);
-digitalWrite(5, LOW);
+    digitalWrite(4, HIGH);
+    digitalWrite(5, LOW);
 
-digitalWrite(6, LOW);
-digitalWrite(7, HIGH);
+    digitalWrite(6, LOW);
+    digitalWrite(7, HIGH);
 
-digitalWrite(8, HIGH);
-digitalWrite(9, LOW);
+    digitalWrite(8, HIGH);
+    digitalWrite(9, LOW);
   }
   //,,,,,,,,,,,,,,,,,,,
   //,,,ATRAS IZQUIERDA,,,,,
   else if (a < 4 && a > 0) {
     //atrasIzquierda();
-   atrasizquierda();
+    atrasizquierda();
   }
   //,,,,,,,,,,,,,,,,,,,,,,
   //,,,,,ATRAS DERECHA,,,,,
-  else if (a >=7 || a>4 && b<100) {
+  else if (a >= 7 || a > 4 && b < 100) {
     //atrasDerecho();
-  atrasderecha();
+    atrasderecha();
   }
   //,,,,,,,,,,,,,,,,,,,,,
   else {
     //  apagado();
-  apagado();
+    apagado();
   }
 }
 
@@ -310,22 +323,22 @@ void checar() {
 void derecha() {
   analogWrite(2, l1);
   analogWrite(3, 0);
-  analogWrite(4, l2);
+  analogWrite(4, l1);
   analogWrite(5, 0);
   analogWrite(6, l1);
   analogWrite(7, 0);
-  analogWrite(8, l2);
+  analogWrite(8, l1);
   analogWrite(9, 0);
 }
 void izquierda() {
   analogWrite(2, 0);
   analogWrite(3, l1);
   analogWrite(4, 0);
-  analogWrite(5, l2);
+  analogWrite(5, l1);
   analogWrite(6, 0);
   analogWrite(7, l1);
   analogWrite(8, 0);
-  analogWrite(9, l2);
+  analogWrite(9, l1);
 }
 void apagado() {
   analogWrite(2, 0);
@@ -350,8 +363,8 @@ void atrasizquierda() {
   analogWrite(8, LOW);
   analogWrite(9, 150);
 }
-void atrasderecha(){
-    analogWrite(2, LOW);
+void atrasderecha() {
+  analogWrite(2, LOW);
   analogWrite(3, LOW);
 
   analogWrite(4, LOW);
