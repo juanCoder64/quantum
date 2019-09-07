@@ -7,9 +7,7 @@ Movimiento(int velocidad);
 void derecha();
 void izquierda();
 void apagado();
-
 private:
 int vel;
-int _velocidad;
 };
 #endif

@@ -3,12 +3,12 @@
 #include <Adafruit_HMC5883_U.h>
 #include"movimientos.h"
 float ini;
-int l1 = 60;
+int l1;
+   Movimiento mueve(l1);
 int adelante;
 float headingDegrees;
 float valor;
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
-
 void brujula(void)
 {
   sensor_t sensor;
@@ -25,45 +25,44 @@ void brujula(void)
   headingDegrees = heading * 180 / M_PI;
 }
 void setup() {
+
+  Serial.begin(9600);
   Wire.begin();
   mag.begin();
   brujula();
   ini = headingDegrees;
+  pinMode(2,OUTPUT);
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(8,OUTPUT);
+  pinMode(9,OUTPUT);
+
 }
 
 void loop() {
+  Serial.print("\t");
+  Serial.println(l1);
   Movimiento mueve(l1);
   orientar();
-  if (adelante == 0) {
+  if (frente() == 0) {
     if (valor < 100) {
+      l1 = map(valor, 10, 100, 30, 255);
       mueve.derecha();
-      if (valor >= 30) {
-        l1 = 255;
-      }
-      else if (valor >= 24 && valor < 30) {
-        l1 = 50;
-      }
-      else {
-        l1 = 40;
-      }
     }
     else {
+      l1 = map(valor, 100, 350, 255, 30);
       mueve.izquierda();
-
-      if (valor <= 315) {
-        l1 = 255;
-      }
-      else if (valor <= 310 && valor > 315) {
-        l1 = 50;
-      }
-      else {
-        l1 = 40;
-      }
     }
   }
-  else{
+  else {
     mueve.apagado();
   }
+  //Serial.print("\t");
+  //Serial.print(valor);
+
 }
 int frente() {
   if (valor < 10 || valor > 350) {
@@ -74,11 +73,10 @@ int frente() {
   }
 }
 void orientar() {
-  adelante = frente();
-  Serial.print(adelante);
-  Serial.print("\t");
+  //Serial.print(frente());
+  //Serial.print("\t");
   brujula();
-  Serial.print("Heading (degrees): "); Serial.println(headingDegrees);
+  //Serial.print("Heading (degrees): "); //Serial.println(headingDegrees);
   valor = headingDegrees - ini;
   if (valor < 0) {
     valor += 360;
