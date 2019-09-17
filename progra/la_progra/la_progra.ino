@@ -1,3 +1,4 @@
+#include <movimientos.h>
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -10,6 +11,7 @@ float ini;
 int a;
 int l1 = 60;
 int b;
+int vuelta = 250;
 int S;
 float valor;
 int compas;
@@ -22,7 +24,7 @@ unsigned long termino;
 unsigned long tardanza;
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
-
+Movimiento mueve(150);
 void brujula(void)
 {
   sensor_t sensor;
@@ -72,6 +74,7 @@ void setup(void)
 
 void loop(void)
 {
+  
   inicio = millis();
   int debug = digitalRead(22);
   oled.clearDisplay();
@@ -106,38 +109,22 @@ void loop(void)
       oled.setTextColor(WHITE);        // Draw white text
       oled.setCursor(0, 40);            // Start at top-left corner
       oled.print("girar hacia");
-
-      if (valor < 100) {
-        derecha();
+      Movimiento mueve(l1);
+      if (valor < vuelta) {
         oled.setTextSize(1);             // Normal 1:1 pixel scale
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("izquierda");
-        if (valor >= 30) {
-          l1 = 255;
-        }
-        else if(valor>=24&&valor<30){
-          l1 = 50;
-        }
-        else {
-          l1 = 4-0;
-        }
+        l1 = map(valor, 10, vuelta, 30, 255);
+        mueve.izquierda();
       }
       else {
-        izquierda();
         oled.setTextSize(1);             // Normal 1:1 pixel scale
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("derecha");
-        if (valor <= 315){
-          l1 = 255;
-        }
-        else if(valor<=310&&valor>315){
-          l1 =50;
-        }
-        else {
-          l1 = 40;
-        }
+        l1 = map(valor, vuelta, 350, 255, 30);
+        mueve.derecha();
       }
     }
     else {
@@ -207,38 +194,27 @@ void buscar() {
   oled.setTextColor(WHITE);        // Draw white text
   oled.setCursor(50, 30);            // Start at top-left corner
   oled.print(b);
-
+  
   //,,,,,,ADELANTE,,,,,,
   if (a <= 6 && a >= 4 || a >= 8 && b < 160) {
-    //enfrente();
-    digitalWrite(2, LOW);
-    digitalWrite(3, HIGH);
-
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
-
-    digitalWrite(6, LOW);
-    digitalWrite(7, HIGH);
-
-    digitalWrite(8, HIGH);
-    digitalWrite(9, LOW);
+    mueve.adelante();
   }
   //,,,,,,,,,,,,,,,,,,,
   //,,,ATRAS IZQUIERDA,,,,,
   else if (a < 4 && a > 0) {
     //atrasIzquierda();
-    atrasizquierda();
+    mueve.atrasderecha();
   }
   //,,,,,,,,,,,,,,,,,,,,,,
   //,,,,,ATRAS DERECHA,,,,,
   else if (a >= 7 || a > 4 && b < 100) {
     //atrasDerecho();
-    atrasderecha();
+    mueve.atrasizquierda();
   }
   //,,,,,,,,,,,,,,,,,,,,,
   else {
     //  apagado();
-    apagado();
+    mueve.apagado();
   }
 }
 
@@ -319,60 +295,4 @@ void checar() {
       }
     }
   }
-}
-void derecha() {
-  analogWrite(2, l1);
-  analogWrite(3, 0);
-  analogWrite(4, l1);
-  analogWrite(5, 0);
-  analogWrite(6, l1);
-  analogWrite(7, 0);
-  analogWrite(8, l1);
-  analogWrite(9, 0);
-}
-void izquierda() {
-  analogWrite(2, 0);
-  analogWrite(3, l1);
-  analogWrite(4, 0);
-  analogWrite(5, l1);
-  analogWrite(6, 0);
-  analogWrite(7, l1);
-  analogWrite(8, 0);
-  analogWrite(9, l1);
-}
-void apagado() {
-  analogWrite(2, 0);
-  analogWrite(3, 0);
-  analogWrite(4, 0);
-  analogWrite(5, 0);
-  analogWrite(6, 0);
-  analogWrite(7, 0);
-  analogWrite(8, 0);
-  analogWrite(9, 0);
-}
-void atrasizquierda() {
-  analogWrite(2, 150);
-  analogWrite(3, LOW);
-
-  analogWrite(4, LOW);
-  analogWrite(5, LOW);
-
-  analogWrite(6, LOW);
-  analogWrite(7, LOW);
-
-  analogWrite(8, LOW);
-  analogWrite(9, 150);
-}
-void atrasderecha() {
-  analogWrite(2, LOW);
-  analogWrite(3, LOW);
-
-  analogWrite(4, LOW);
-  analogWrite(5, 150);
-
-  analogWrite(6, 150);
-  analogWrite(7, LOW);
-
-  analogWrite(8, LOW);
-  analogWrite(9, LOW);
 }

@@ -1,10 +1,11 @@
+#include <movimientos.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_HMC5883_U.h>
-#include"movimientos.h"
+int vuelta = 180;
 float ini;
 int l1;
-   Movimiento mueve(l1);
+Movimiento mueve(l1);
 int adelante;
 float headingDegrees;
 float valor;
@@ -48,12 +49,12 @@ void loop() {
   Movimiento mueve(l1);
   orientar();
   if (frente() == 0) {
-    if (valor < 100) {
-      l1 = map(valor, 10, 100, 30, 255);
+    if (valor < vuelta) {
+      l1 = map(valor, 10, vuelta, 30, 255);
       mueve.derecha();
     }
     else {
-      l1 = map(valor, 100, 350, 255, 30);
+      l1 = map(valor, vuelta, 350, 255, 30);
       mueve.izquierda();
     }
   }
