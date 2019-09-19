@@ -84,7 +84,7 @@ void loop(void)
   else {
     orientar();
     if (adelante == 0) {
-
+      brujula();
       oled.setTextSize(2);             // Normal 1:1 pixel scale
       oled.setTextColor(WHITE);        // Draw white text
       oled.setCursor(0, 0);            // Start at top-left corner
@@ -156,7 +156,6 @@ void orientar() {
   adelante = frente();
   Serial.print(adelante);
   Serial.print("\t");
-  brujula();
 
 
   Serial.print("Heading (degrees): "); Serial.println(headingDegrees);
