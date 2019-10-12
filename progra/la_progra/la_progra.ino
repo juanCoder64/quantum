@@ -1,6 +1,6 @@
-#include <movimientos.h>
-#include <SPI.h>
 #include <Wire.h>
+#include <Movimiento.h>
+#include <SPI.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
@@ -24,16 +24,16 @@ unsigned long termino;
 unsigned long tardanza;
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
-Movimiento mueve(150);
-void brujula(void)
+Movimiento mueve(0);
+/*void brujula(void)
 {
   sensor_t sensor;
   mag.getSensor(&sensor);
-  /* Get a new sensor event */
+  /* Get a new sensor event 
   sensors_event_t event;
   mag.getEvent(&event);
 
-  /* oled the results (magnetic vector values are in micro-Tesla (uT)) */
+  /* oled the results (magnetic vector values are in micro-Tesla (uT)) 
   // Hold the module so that Z is pointing 'up' and you can measure the heading with x&y
   // Calculate heading when the magnetometer is level, then correct for signs of axis.
   float heading = atan2(event.magnetic.y, event.magnetic.x);
@@ -55,7 +55,7 @@ void brujula(void)
 
   // Convert radians to degrees for readability.
   headingDegrees = heading * 180 / M_PI;
-}
+}*/
 
 void setup(void)
 {
@@ -63,12 +63,12 @@ void setup(void)
   Serial.begin(9600);
   Wire.begin();
   /* Initialise the sensor */
-  mag.begin();
+  //mag.begin();
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   /* oled some basic information on this sensor */
-  brujula();
-  ini = headingDegrees;
-  checar();
+  //brujula();
+  //ini = headingDegrees;
+  //checar();
   analogWrite(13, 100);
 }
 
@@ -81,10 +81,10 @@ void loop(void)
   if (debug == 0) {
     checar();
   }
-  else {
-    orientar();
+  //else {
+  /*  orientar();
     if (adelante == 0) {
-      brujula();
+//      brujula();
       oled.setTextSize(2);             // Normal 1:1 pixel scale
       oled.setTextColor(WHITE);        // Draw white text
       oled.setCursor(0, 0);            // Start at top-left corner
@@ -109,27 +109,26 @@ void loop(void)
       oled.setTextColor(WHITE);        // Draw white text
       oled.setCursor(0, 40);            // Start at top-left corner
       oled.print("girar hacia");
-      Movimiento mueve(l1);
+      Movimiento mueve();
       if (valor < vuelta) {
         oled.setTextSize(1);             // Normal 1:1 pixel scale
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("izquierda");
         l1 = map(valor, 10, vuelta, 30, 255);
-        mueve.izquierda();
-      }
+        }
       else {
         oled.setTextSize(1);             // Normal 1:1 pixel scale
         oled.setTextColor(WHITE);        // Draw white text
         oled.setCursor(0, 50);            // Start at top-left corner
         oled.print("derecha");
         l1 = map(valor, vuelta, 350, 255, 30);
-        mueve.derecha();
+        
       }
-    }
+    }*/
     else {
       buscar();
-    }
+    
     termino = millis();
     tardanza = termino - inicio;
     oled.setTextSize(1);             // Normal 1:1 pixel scale
@@ -141,8 +140,10 @@ void loop(void)
     oled.setCursor(80, 50);            // Start at top-left corner
     oled.print(tardanza);
   }
+  
 
   oled.display();
+
 }
 int frente() {
   if (valor < 10 || valor > 350) {
@@ -156,10 +157,8 @@ void orientar() {
   adelante = frente();
   Serial.print(adelante);
   Serial.print("\t");
-
-
+//  brujula();
   Serial.print("Heading (degrees): "); Serial.println(headingDegrees);
-
   valor = headingDegrees - ini;
   if (valor < 0) {
     valor += 360;
@@ -196,25 +195,31 @@ void buscar() {
   
   //,,,,,,ADELANTE,,,,,,
   if (a <= 6 && a >= 4 || a >= 8 && b < 160) {
-    mueve.adelante();
+    
+    mueve.muevete(0,255);
   }
   //,,,,,,,,,,,,,,,,,,,
   //,,,ATRAS IZQUIERDA,,,,,
   else if (a < 4 && a > 0) {
     //atrasIzquierda();
-    mueve.atrasderecha();
+
+    mueve.muevete(225,255);
+    //225,255
   }
   //,,,,,,,,,,,,,,,,,,,,,,
   //,,,,,ATRAS DERECHA,,,,,
   else if (a >= 7 || a > 4 && b < 100) {
     //atrasDerecho();
-    mueve.atrasizquierda();
+     mueve.muevete(135,255);
+   //(135,255);
   }
+  
   //,,,,,,,,,,,,,,,,,,,,,
   else {
     //  apagado();
-    mueve.apagado();
+    mueve.muevete(0,0);
   }
+ 
 }
 
 void checar() {
@@ -295,3 +300,4 @@ void checar() {
     }
   }
 }
+  
