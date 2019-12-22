@@ -115,18 +115,10 @@ void loop() {
     disp.setTextColor(WHITE);
     disp.setCursor(0, 0);
     disp.println("orientando");
-    if (valor < vuelta) {
-      l1 = map(valor, 10, vuelta, 30, 200);
-      mueve.rota(l1, 0);
-    }
-    else {
-      l1 = map(valor, vuelta, 350, 200, 30);
-      mueve.rota(l1, 1);
-    }
+    mueve.rota(valor);
   }
   else {
-    l1 = 0;
-    mueve.muevete(l1, 0);
+    mueve.muevete(0, 255,valor);
   }
   int temp = osas.getTemp();
   disp.setTextSize(1);
@@ -142,14 +134,6 @@ void loop() {
   disp.setCursor(0, 55);
   disp.println(temp);
   disp.display();
-  if (valor < vuelta) {
-    led = map(valor, 0, vuelta, 0, 255);
-
-  }
-  else {
-    led = map(valor, vuelta, 360, 255, 0);
-
-  }
   analogWrite(13, led);
   Serial.print(valor);
 }
