@@ -19,9 +19,9 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
   errorSum += error;
   I = ANGLE-errorSum;
   D = errorPrev-error;
-  P *= KP;
-  I *= KI;
-  D *= KD;
+  P *= kP;
+  I *= kI;
+  D *= kD;
   errorPrev=error;
   PID = P+I+D;
   a = sin(((PID + 45) * PI) / 180) * MAXSpeed;
