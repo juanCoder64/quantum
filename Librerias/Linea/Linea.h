@@ -3,10 +3,11 @@
 #define Linea_h
 class Linea{
 public:
-Linea(int centro,int medio,int exterior);
-void calibrar();
+Linea(int centro,int medio,int exterior,int ledpin);
+void calibrarV();
+void calibrarB();
 int lectura();
 private:
-int a, b, c, Ca, Cb, Cc,centro,medio,exterior;
+int a, b, c, Ca, Cb, Cc,centro,medio,exterior,ledpin;
 };
 #endif
