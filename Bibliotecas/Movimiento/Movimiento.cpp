@@ -13,26 +13,26 @@ Movimiento::Movimiento(float KP,float KI, float KD) {
   kI = KI;
   kD = KD;
 }
-void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
-  P = ANGLE - brujula;
+void Movimiento::muevete(int ANGLE, int MAXSpeed, float brujula) {
+  P = 0 - brujula;
   error = P;
   errorSum += error;
-  I = ANGLE-errorSum;
+  I = 0-errorSum;
   D = errorPrev-error;
-  P *= kP;
-  I *= kI;
-  D *= kD;
+  P *= KP;
+  I *= KI;
+  D *= KD;
   errorPrev=error;
   PID = P+I+D;
-  a = sin(((PID + 45) * PI) / 180) * MAXSpeed;
-  b = sin(((PID + 135) * PI) / 180) * MAXSpeed;
-  c = sin(((PID + 225) * PI) / 180) * MAXSpeed;
-  d = sin(((PID + 315) * PI) / 180) * MAXSpeed;
+  a = sin(((PID + ANGLE + 45) * PI) / 180) * MAXSpeed;
+  b = sin(((PID + ANGLE + 135) * PI) / 180) * MAXSpeed;
+  c = sin(((PID + ANGLE + 225) * PI) / 180) * MAXSpeed;
+  d = sin(((PID + ANGLE + 315) * PI) / 180) * MAXSpeed;
   a = constrain(a, -255, 255);
   b = constrain(b, -255, 255);
   c = constrain(c, -255, 255);
   d = constrain(d, -255, 255);
-  if (a > 0) {
+  if (a < 0) {
     analogWrite(2, LOW);
     analogWrite(3, -a);
     a = -a;
@@ -43,7 +43,7 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
 
   }
   //----------------
-  if (b > 0) {
+  if (b < 0) {
     analogWrite(4, LOW);
     analogWrite(5, -b);
     b = -b;
@@ -52,7 +52,7 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
     analogWrite(4, b);
     analogWrite(5, LOW);
   }
-  if (c > 0) {
+  if (c < 0) {
     analogWrite(6, LOW);
     analogWrite(7, -c);
     c = -c;
@@ -62,7 +62,7 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
     analogWrite(7, LOW);
 
   }
-  if (d > 0) {
+  if (d < 0) {
     analogWrite(8, LOW);
     analogWrite(9, -d);
     d = -d;
@@ -71,6 +71,14 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, int brujula) {
     analogWrite(8, d);
     analogWrite(9, LOW);
   }
+	Serial.println(a);
+	Serial.println("\t");
+	Serial.println(b);
+	Serial.println("\t");
+	Serial.println(c);
+	Serial.println("\t");
+	Serial.println(d);
+
 }
 void Movimiento::rota(int brujula) {
   if (brujula < 180) {

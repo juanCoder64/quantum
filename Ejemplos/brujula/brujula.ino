@@ -135,7 +135,7 @@ void loop() {
   disp.println(temp);
   disp.display();
   analogWrite(13, led);
-  Serial.print(valor);
+  Serial.println(valor);
 }
 int frente() {
   if (valor < 10 || valor > 350) {
