@@ -5,18 +5,22 @@ Movimiento::Movimiento(float KP,float KI, float KD) {
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(25, OUTPUT);
+  digitalWrite(25, HIGH);
   //motor B
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(27, OUTPUT);
+  digitalWrite(27, HIGH);
   //motor C
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
   pinMode(11, OUTPUT);
+  digitalWrite(11, HIGH);
   //motor D
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
+  digitalWrite(10, HIGH);
   kP = KP;
   kI = KI;
   kD = KD;
