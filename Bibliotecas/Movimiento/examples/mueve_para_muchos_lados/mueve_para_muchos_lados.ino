@@ -7,7 +7,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
-Adafruit_BNO055 bruj = Adafruit_BNO055(55, 0x28);
+Adafruit_BNO055 bruj(55, 0x28);
 float lectura;
 void setup() {
   // put your setup code here, to run once:
@@ -29,7 +29,7 @@ void loop() {
   oled.setCursor(20, 0);
   oled.print(lectura);
   mueve.muevete(0,255, lectura);
-    /*delay(500);
+  /*delay(500);
     mueve.muevete(0, 0, lectura);
     delay(500);
     mueve.muevete(45, 150, lectura);

@@ -1,12 +1,16 @@
 #include "Arduino.h"
 #include "Movimiento.h"
 Movimiento::Movimiento(float KP,float KI, float KD) {
+  //motor A
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
+  //motor B
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
+  //motor C
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
+  //motor D
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
   kP = KP;
