@@ -4,15 +4,19 @@ Movimiento::Movimiento(float KP,float KI, float KD) {
   //motor A
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
+  pinMode(25, OUTPUT);
   //motor B
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
+  pinMode(27, OUTPUT);
   //motor C
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
+  pinMode(11, OUTPUT);
   //motor D
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
   kP = KP;
   kI = KI;
   kD = KD;
