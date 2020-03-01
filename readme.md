@@ -1,4 +1,4 @@
-# pruebas
+# ejemplos
  ## [brujula](https://github.com/juanCoder64/quantum/tree/master/Ejemplos/brujula)
  para esta prueba se necesitan las siguientes librerias:
  * [Movimiento](https://github.com/juanCoder64/quantum/tree/master/Bibliotecas/Movimiento)
