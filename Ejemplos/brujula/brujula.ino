@@ -99,7 +99,7 @@ void setup() {
   disp.clearDisplay();
   disp.drawBitmap(0, 0, chabots, 128, 64, WHITE);
   disp.display();
-  delay(2000);
+  delay(2000);//se espera mientras se imprime el logo de chabots quantum
 }
 
 void loop() {
@@ -115,10 +115,10 @@ void loop() {
     disp.setTextColor(WHITE);
     disp.setCursor(0, 0);
     disp.println("orientando");
-    mueve.rota(valor);
+    mueve.rota(valor);//se orienta con control Proporcional
   }
   else {
-    mueve.muevete(0, 255,valor);
+    mueve.muevete(0, 255,valor);//mientras esté orientado avanza
   }
   int temp = osas.getTemp();
   disp.setTextSize(1);
