@@ -1,22 +1,22 @@
 #include "Arduino.h"
 #include "Movimiento.h"
 Movimiento::Movimiento(float KP,float KI, float KD) {
-  //motor A
+  //motor B
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(25, OUTPUT);
   digitalWrite(25, HIGH);
-  //motor B
+  //motor A
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(27, OUTPUT);
   digitalWrite(27, HIGH);
-  //motor C
+  //motor D
   pinMode(6, OUTPUT);
   pinMode(7, OUTPUT);
   pinMode(11, OUTPUT);
   digitalWrite(11, HIGH);
-  //motor D
+  //motor C
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
@@ -36,10 +36,10 @@ void Movimiento::muevete(int ANGLE, int MAXSpeed, float brujula) {
   D *= KD;
   errorPrev=error;
   PID = P+I+D;
-  a = sin(((PID + ANGLE + 45) * PI) / 180) * MAXSpeed;
-  b = sin(((PID + ANGLE + 135) * PI) / 180) * MAXSpeed;
-  c = sin(((PID + ANGLE + 225) * PI) / 180) * MAXSpeed;
-  d = sin(((PID + ANGLE + 315) * PI) / 180) * MAXSpeed;
+  a = sin(((PID + ANGLE + 135) * PI) / 180) * MAXSpeed;
+  b = sin(((PID + ANGLE + 45) * PI) / 180) * MAXSpeed;
+  c = sin(((PID + ANGLE + 315) * PI) / 180) * MAXSpeed;
+  d = sin(((PID + ANGLE + 225) * PI) / 180) * MAXSpeed;
   a = constrain(a, -255, 255);
   b = constrain(b, -255, 255);
   c = constrain(c, -255, 255);
