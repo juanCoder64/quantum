@@ -29,7 +29,7 @@ void loop() {
   oled.setCursor(20, 0);
   oled.print(lectura);
   mueve.muevete(0,255, lectura);
-  /*delay(500);
+  delay(500);
     mueve.muevete(0, 0, lectura);
     delay(500);
     mueve.muevete(45, 150, lectura);
@@ -55,6 +55,6 @@ void loop() {
     mueve.muevete(270, 150, lectura);
     delay(500);
     mueve.muevete(0, 0, lectura);
-    Serial.println(lectura);*/
+    Serial.println(lectura);
   oled.display();
 }
