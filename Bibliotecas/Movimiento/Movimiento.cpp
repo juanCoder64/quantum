@@ -118,6 +118,7 @@ void Movimiento::rota(int brujula) {
     analogWrite(9, PID);
   }
 }
+
 void Movimiento::recio() {
   analogWrite(2, HIGH);
   analogWrite(3, HIGH);

@@ -4,7 +4,7 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
-Movimiento mueve(0);
+Movimiento mueve(0,0,0);
 void setup() {
   
   // put your setup code here, to run once:
@@ -45,20 +45,20 @@ oled.clearDisplay();
   oled.display();
 //,,,,,,ADELANTE,,,,,,
 if(a<6 && a>4){
-mueve.muevete(0,255);
+mueve.muevete(0,255,0);
 }
 //,,,,,,,,,,,,,,,,,,,
 //,,,ATRAS IZQUIERDA,,,,, 
 else if(a<=4 && a>0){
-mueve.muevete(225,150);
+mueve.muevete(225,150,0);
 }
 //,,,,,,,,,,,,,,,,,,,,,,
 //,,,,,ATRAS DERECHA,,,,,
 else if(a>=7){
-mueve.muevete(135,150);
+mueve.muevete(135,150,0);
 }
 //,,,,,,,,,,,,,,,,,,,,,
 else{
-mueve.muevete(0,0);
+mueve.muevete(0,0,0);
 }
 }

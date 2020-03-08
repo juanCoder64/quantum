@@ -6,21 +6,22 @@
 #include <Linea.h>
 #include <Movimiento.h>
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
-Linea frente(A0, A1, A2, 50);
-Linea izq(A3, A4, A5, 51);
-Linea der(A6, A7, A8, 52);
-Linea abajo(A9, A10, A11, 53);
-Movimiento mueve(1, 2, 3);
+Linea frente(A0, A1, A2, 48);
+Linea izq(A3, A4, A5, 49);
+Linea der(A6, A7, A8, 50);
+Linea abajo(A9, A10, A11, 51);
 Adafruit_BNO055 bruj(55, 0x28);
 void setup() {
+  pinMode(27, OUTPUT);  
+  digitalWrite(27, LOW);
   // put your setup code here, to run once:
   Serial.begin(9600);
-
   Wire.begin();
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   calibrar();
   digitalWrite(50, HIGH);
 }
+Movimiento mueve(0, 0, 0);
 
 void loop() {
   oled.clearDisplay();
