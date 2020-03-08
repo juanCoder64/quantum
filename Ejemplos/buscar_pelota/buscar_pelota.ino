@@ -1,48 +1,59 @@
-#include <HTInfraredSeeker.h>
-#include <Movimiento.h>
+#include <IR360.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
+#include <HTInfraredSeeker.h> 
+#include <Movimiento.h>
+unsigned long tardanza = 0;
+//objetos para cada cosa
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
-Movimiento mueve(0,0,0);
+Movimiento mueve(0,0,0);//los valore son P,I,D
+IR360 ir360(1);
 void setup() {
-  
-  // put your setup code here, to run once:
-  Serial.begin(9600); //Starts the Serial Monitor so we can read output
+  Serial.begin(9600);
   InfraredSeeker::Initialize(); //initializes the IR sensor
   Wire.begin();
    oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 }
 void loop() {
-// put your main code here, to run repeatedly:
-
+ tardanza = millis();
+  oled.clearDisplay();
+  InfraredResult InfraredBall = InfraredSeeker::ReadAC();
+  oled.setTextSize(2);
+  oled.setTextColor(WHITE);
+  oled.setCursor(0, 0);
+  oled.print("lego");
+  oled.setCursor(90, 0);
+  oled.print("360");
+  oled.setTextSize(1);
+  oled.setCursor(20, 30);
+  if (ir360.posicion() == 1275) {
+    oled.print(InfraredBall.Direction);
+    Lego();
+  }
+  else {
+    oled.setCursor(70, 30);
+    oled.print(ir360.posicion());
+  mueve.muevete(ir360.posicion(),255,0);
+  }
+  tardanza = millis() - tardanza;
+  oled.setCursor(30, 40);
+  oled.print("milis por ciclo");
+  oled.setCursor(70, 50);
+  oled.print(tardanza);
+  oled.display();
+}
+void Lego(){
 InfraredResult InfraredBall = InfraredSeeker::ReadAC();
 int a=0;
 int muestras=10;
   for(int i= 0 ; i< muestras; i++)
   {
-      // put your main code here, to run repeatedly:
      InfraredResult InfraredBall = InfraredSeeker::ReadAC();
     a += InfraredBall.Direction;
   }
 a/=muestras;
 a = InfraredBall.Direction;
-Serial.print(" ir= ");
-Serial.println(a);
-oled.clearDisplay();
-    oled.setTextSize(2);             // Normal 1:1 pixel scale
-  oled.setTextColor(WHITE);        // Draw white text
-  oled.setCursor(0, 0);            // Start at top-left corner
-  oled.print("buscando P");
-  oled.setTextSize(1);             // Normal 1:1 pixel scale
-  oled.setTextColor(WHITE);        // Draw white text
-  oled.setCursor(0, 20);            // Start at top-left corner
-  oled.print("pelota");
-  oled.setTextSize(1);             // Normal 1:1 pixel scale
-  oled.setTextColor(WHITE);        // Draw white text
-  oled.setCursor(0, 30);            // Start at top-left corner
-  oled.print(a);
-  oled.display();
 //,,,,,,ADELANTE,,,,,,
 if(a<6 && a>4){
 mueve.muevete(0,255,0);
