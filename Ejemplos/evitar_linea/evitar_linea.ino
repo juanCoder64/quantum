@@ -1,3 +1,4 @@
+#include <IR360.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
@@ -11,8 +12,11 @@ Linea izq(A3, A4, A5, 49);
 Linea der(A6, A7, A8, 50);
 Linea abajo(A9, A10, A11, 51);
 Adafruit_BNO055 bruj(55, 0x28);
+IR360 ir360(1);
+int boton;
 void setup() {
-  pinMode(27, OUTPUT);  
+  pinMode(27, OUTPUT);
+  pinMode(45, INPUT) ;
   digitalWrite(27, LOW);
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -47,104 +51,103 @@ void loop() {
   Serial.print("\t");
   Serial.println(izq.lectura());
   if (izq.lectura() != 0) {
-    if (izq.lectura() == 1) {
-      mueve.muevete(90, 85, bruj);
+    if (izq.lectura() == 3) {
+      mueve.muevete(90, 160, bruj);
     }
     if (izq.lectura() == 2) {
-      mueve.muevete(90, 170, bruj);
+      mueve.muevete(90, 255, bruj);
     }
-    else if (izq.lectura() == 3) {
+    else if (izq.lectura() == 1) {
       mueve.muevete(90, 255, bruj);
     }
     //delay(500);
-  }
-  if (der.lectura() != 0) {
-    if (der.lectura() == 1) {
-      //mueve.muevete(270, 85, bruj);
+    }
+    if (der.lectura() != 0) {
+    if (der.lectura() == 3) {
+      mueve.muevete(270, 160, bruj);
     }
     else if (der.lectura() == 2) {
-      mueve.muevete(270, 170, bruj);
+      mueve.muevete(270, 255, bruj);
     }
-    else if (der.lectura() == 3) {
+    else if (der.lectura() == 1) {
       mueve.muevete(270, 255, bruj);
     }
     //delay(500);
-  }
-  if (frente.lectura() != 0) {
-    if (frente.lectura() == 1) {
-      mueve.muevete(0, 85, bruj);
+    }
+    if (frente.lectura() != 0) {
+    if (frente.lectura() == 3) {
+      mueve.muevete(180, 160, bruj);
     }
     else if (frente.lectura() == 2) {
-      mueve.muevete(0, 170, bruj);
+      mueve.muevete(180, 255, bruj);
     }
-    else if (frente.lectura() == 3) {
-      mueve.muevete(0, 255, bruj);
+    else if (frente.lectura() == 1) {
+      mueve.muevete(180, 255, bruj);
     }
     //delay(500);
-  }
-  if (abajo.lectura() != 0) {
-    if (abajo.lectura() == 1) {
-      mueve.muevete(0, 85, bruj);
+    }
+    if (abajo.lectura() != 0) {
+    if (abajo.lectura() == 3) {
+      mueve.muevete(0, 160, bruj);
     }
     else if (abajo.lectura() == 2) {
-      mueve.muevete(0, 170, bruj);
+      mueve.muevete(0, 255, bruj);
     }
-    else if (abajo.lectura() == 3) {
+    else if (abajo.lectura() == 1) {
       mueve.muevete(0, 255, bruj);
     }
     //delay(500);
-  }
-
+    }
+    if(abajo.lectura()+der.lectura()+izq.lectura()+frente.lectura()==0)
+ mueve.muevete(ir360.posicion(), 160, 0);
   oled.display();
 }
 void calibrar() {
   Serial.println("poner todos los sensores en verde");
-  for (int i = 0; i < 5; i++) {
     oled.clearDisplay();
     oled.setTextSize(2);             // Normal 1:1 pixel scale
     oled.setTextColor(WHITE);        // Draw white text
     oled.setCursor(20, 0);
     oled.print("verde");
     oled.setCursor(20, 64);
-    oled.print(i + 1);
-    Serial.print(i + 1);
     oled.display();
-    delay(1000);
-
+  while (boton==0) {
+    boton = digitalRead(45);
   }
+  delay(1000);
+    boton = digitalRead(45);
   frente.calibrarV();
   izq.calibrarV();
   der.calibrarV();
   abajo.calibrarV();
   Serial.println("poner los sensores laterales en blanco");
-  for (int i = 0; i < 5; i++) {
-    oled.clearDisplay();
+  oled.clearDisplay();
     oled.setTextSize(2);             // Normal 1:1 pixel scale
     oled.setTextColor(WHITE);        // Draw white text
     oled.setCursor(20, 0);
     oled.print("laterales");
     oled.setCursor(20, 64);
-    oled.print(i + 1);
-    Serial.print(i + 1);
     oled.display();
-    delay(1000);
-
+  while (boton==0) {
+    boton = digitalRead(45);
   }
+  delay(1000);
+  boton = digitalRead(45);
+  
   izq.calibrarB();
   der.calibrarB();
   Serial.println("poner los sensores de arriba y abajo en blanco");
-  for (int i = 0; i < 5; i++) {
     oled.clearDisplay();
     oled.setTextSize(2);             // Normal 1:1 pixel scale
     oled.setTextColor(WHITE);        // Draw white text
     oled.setCursor(20, 0);
     oled.print("arriba");
     oled.setCursor(20, 64);
-    oled.print(i + 1);
-    Serial.print(i + 1);
     oled.display();
-    delay(1000);
+  while (boton==0) {
+    boton = digitalRead(45);
   }
+  delay(1000);
   frente.calibrarB();
   abajo.calibrarB();
 }
