@@ -3,9 +3,7 @@
 orientacion::orientacion(){
   
 }
-void orientacion::Begin(){
-  begin();
-}
+
 void orientacion::run(){
   orientar(valor);
 }

@@ -20,5 +20,5 @@ bool evitarLinea::linea() {
 
 }
 void evitarLinea::calibrar() {
-  calibrar();
+  calibrate();
 }

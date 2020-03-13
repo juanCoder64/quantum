@@ -18,7 +18,7 @@ class library {
     void orientar(float);
     //sensores de linea
     int getLinea(int);
-    void calibrar();
+    void calibrate();
 
 };
 #endif

@@ -1,5 +1,6 @@
 /*
     Código del equipo Chabots Quantum -[:] para el torneo mexicano de robotica 2020
+    este y otros códigos más se pueden encontrar en https://github.com/juanCoder64/quantum
 */
 #include "evitarLinea.h"
 #include "buscar_pelota.h"
@@ -9,8 +10,7 @@ evitarLinea linea;
 pelota IR;
 void setup() {
   IR.Begin();
-    orientation.Begin();
-   linea.calibrar();
+  linea.calibrar();
 }
 void loop() {
   if (orientation.frente()) {

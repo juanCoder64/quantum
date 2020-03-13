@@ -6,7 +6,6 @@ class orientacion : public library {
 public:
 orientacion();
 void run();
-void Begin();
 bool frente();
 };
 #endif

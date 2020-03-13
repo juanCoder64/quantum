@@ -64,18 +64,27 @@ int library::getLinea(int numero) {
     return frente.lectura();
   }
 }
-void calibrar() {
+void library::calibrate() {
   pinMode(45,INPUT);
+oled.clearDisplay();
+  oled.setTextSize(2);             // Normal 1:1 pixel scale
+  oled.setTextColor(WHITE);        // Draw white text
+  oled.setCursor(0, 0);
+  oled.print("verde");
+  oled.display();
 int boton = digitalRead(45);
   while (boton == 0) {
     boton = digitalRead(45);
   }
-  delay(1000);
   boton = digitalRead(45);
   frente.calibrarV();
   izq.calibrarV();
   der.calibrarV();
   abajo.calibrarV();
+  oled.clearDisplay();
+oled.print("laterales");
+  oled.display();
+
   while (boton == 0) {
     boton = digitalRead(45);
   }
@@ -84,6 +93,9 @@ int boton = digitalRead(45);
 
   izq.calibrarB();
   der.calibrarB();
+  oled.clearDisplay();
+oled.print("frente");
+  oled.display();
   while (boton == 0) {
     boton = digitalRead(45);
   }
