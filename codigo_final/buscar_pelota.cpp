@@ -19,7 +19,24 @@ void pelota::run() {
     Lego();
   }
   else {
-    grado(ir360.posicion(), 255);
+    speed = map(ir360.intensidad(),40,0,170,255);
+    borra();
+    pantalla(3,0,0,speed);
+    imprime();
+    if(ir360.intensidad()>30){//encontrar un mejor valor
+    grado(ir360.posicion(), speed);
+  }
+  else{
+    if(ir360.posicion()<180&&ir360.posicion()>20){
+       grado(ir360.posicion()+90, speed);
+    }
+    else if(ir360.posicion()>180&&ir360.posicion()<350){
+       grado(ir360.posicion()-90, speed);
+    }
+    else{
+       grado(ir360.posicion(), speed);
+    }
+  }
   }
 
 }
@@ -34,9 +51,15 @@ void pelota::Lego() {
   }
   a /= muestras;
   a = InfraredBall.Direction;
-  //,,,,,,ADELANTE,,,,,,
+  posicion=map(a,1,9,-135,255);
+  if(posicion<0){
+    posicion+=360;
+  }
+  grado(posicion,255);
+  
+  /*,,,,,,ADELANTE,,,,,,
   if (a < 6 && a > 4) {
-    grado(0, 255);
+    grado(0, 170);
   }
   //,,,,,,,,,,,,,,,,,,,
   //,,,ATRAS IZQUIERDA,,,,,
@@ -48,5 +71,8 @@ void pelota::Lego() {
   else if (a >= 7) {
     grado(135, 150);
   }
-  //,,,,,,,,,,,,,,,,,,,,,
+  else{
+    grado(0,0);
+  }
+  //,,,,,,,,,,,,,,,,,,,,,*/
 }

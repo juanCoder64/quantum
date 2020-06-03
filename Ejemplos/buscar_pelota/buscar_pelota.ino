@@ -1,3 +1,7 @@
+/*
+Codigo desarrollado por Chabots Quantum
+Este código hace que el robot siga la pelota
+*/
 #include <IR360.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>

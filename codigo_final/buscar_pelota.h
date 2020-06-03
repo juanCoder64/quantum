@@ -8,6 +8,8 @@ class pelota : public library  {
     void Begin();
     void run();
     void Lego();
-
+private:
+int posicion;
+int speed;
 };
 #endif

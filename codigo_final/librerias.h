@@ -9,7 +9,7 @@ class library {
     void brujula();
     float valor;
     //pantalla
-    void display(int T, int X, int Y, String val);
+    void pantalla(int T, int X, int Y, int val);
     void imprime();
     void borra();
     //motores

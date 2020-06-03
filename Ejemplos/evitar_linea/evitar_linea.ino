@@ -1,3 +1,7 @@
+/*
+Código desrrollado por chabots Quantum
+Este código hace que el robot se quite de la línea
+*/
 #include <IR360.h>
 #include <Wire.h>
 #include <Adafruit_SSD1306.h>

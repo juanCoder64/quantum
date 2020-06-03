@@ -13,15 +13,17 @@ void setup() {
   linea.calibrar();
 }
 void loop() {
+
   if (orientation.frente()) {
     if (!linea.linea()) {
+
       IR.run();
     }
     else {
-      linea.run();
+    linea.run();
     }
   }
   else {
-    orientation.run();
+      orientation.run();
   }
 }

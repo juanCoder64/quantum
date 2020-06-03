@@ -9,15 +9,17 @@
 #include <Linea.h>
 Adafruit_BNO055 osas = Adafruit_BNO055(55, 0x28);
 Adafruit_SSD1306 oled(128, 64, &Wire, 4);
-Movimiento mueve(0, 0, 0); //los valore son P,I,D
+Movimiento mueve(1, 1, 1); //los valore son P,I,D
 Linea frente(A0, A1, A2, 48);
 Linea izq(A3, A4, A5, 49);
 Linea der(A6, A7, A8, 50);
 Linea abajo(A9, A10, A11, 51);
-library::library(){
-  
+library::library() {
+
 }
 void library::begin() {
+  pinMode(27, OUTPUT) ;
+  digitalWrite(27, LOW);
   Serial.begin(9600);
   Wire.begin();
   oled.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -29,7 +31,7 @@ void library::brujula() {
   osas.getEvent(&orientationData, Adafruit_BNO055::VECTOR_EULER);
   valor = orientationData.orientation.x;
 }
-void library::display(int T, int X, int Y, String val) {
+void library::pantalla(int T, int X, int Y, int val) {
   oled.setTextSize(T);             // Normal 1:1 pixel scale
   oled.setTextColor(WHITE);        // Draw white text
   oled.setCursor(X, Y);
@@ -51,7 +53,7 @@ void library::orientar(float val) {
   mueve.rota(val);
 }
 int library::getLinea(int numero) {
-  if (numero == 2) {
+  if (numero == 3) {
     return der.lectura();
   }
   else if (numero == 1) {
@@ -60,46 +62,48 @@ int library::getLinea(int numero) {
   else if (numero == 0) {
     return abajo.lectura();
   }
-  else if (numero == 3) {
+  else if (numero == 2) {
     return frente.lectura();
   }
 }
 void library::calibrate() {
-  pinMode(45,INPUT);
-oled.clearDisplay();
+  pinMode(45, INPUT);
+  oled.clearDisplay();
   oled.setTextSize(2);             // Normal 1:1 pixel scale
   oled.setTextColor(WHITE);        // Draw white text
   oled.setCursor(0, 0);
   oled.print("verde");
   oled.display();
-int boton = digitalRead(45);
+  int boton = digitalRead(45);
   while (boton == 0) {
     boton = digitalRead(45);
   }
+  delay(1000);
   boton = digitalRead(45);
   frente.calibrarV();
   izq.calibrarV();
   der.calibrarV();
   abajo.calibrarV();
   oled.clearDisplay();
-oled.print("laterales");
+  oled.print("laterales");
+  oled.setCursor(0, 0);
   oled.display();
-
   while (boton == 0) {
     boton = digitalRead(45);
   }
   delay(1000);
   boton = digitalRead(45);
-
   izq.calibrarB();
   der.calibrarB();
   oled.clearDisplay();
-oled.print("frente");
+  oled.setCursor(0, 0);
+  oled.print("frente");
   oled.display();
   while (boton == 0) {
     boton = digitalRead(45);
   }
-  delay(1000);
   frente.calibrarB();
   abajo.calibrarB();
+  oled.clearDisplay();
+  oled.display();
 }
