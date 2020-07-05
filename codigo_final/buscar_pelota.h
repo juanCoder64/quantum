@@ -8,6 +8,7 @@ class pelota : public library  {
     void Begin();
     void run();
     void Lego();
+    void omnidIR();
 private:
 int posicion;
 int speed;
